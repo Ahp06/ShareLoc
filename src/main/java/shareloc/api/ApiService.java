@@ -1,16 +1,16 @@
-package api;
+package shareloc.api;
 
-import dao.AbstractDao;
+import shareloc.dao.AbstractDao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class BaseServices<T> {
+public class ApiService<T> {
 
     private final AbstractDao<T> dao;
 
-    BaseServices(Class<T> serviceClass) {
+    public ApiService(Class<T> serviceClass) {
         this.dao = new AbstractDao<T>(serviceClass);
     }
 

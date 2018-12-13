@@ -3,6 +3,9 @@
 
     <persistence-unit name="sharelocPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+
+        <class>shareloc.model.User</class>
+
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc"/>
             <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
