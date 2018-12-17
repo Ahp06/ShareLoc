@@ -7,8 +7,8 @@
         <class>shareloc.model.User</class>
 
         <properties>
-            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc"/>
-            <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc?serverTimezone=UTC"/>
+            <property name="eclipselink.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
             <property name="eclipselink.jdbc.user" value="root"/>
             <property name="eclipselink.jdbc.password" value=""/>
             <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
