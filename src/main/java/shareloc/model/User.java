@@ -1,45 +1,40 @@
 package shareloc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@JsonIgnoreProperties({"password"})
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    private String password;
-    private String firstname;
-    private String lastname;
+    public String login;
+    @JsonProperty(access = Access.WRITE_ONLY)
+    public String password;
+    public String firstname;
+    public String lastname;
 
-    public User(){}
+    public User() {
+    }
 
-    public User(String email, String password, String firstname, String lastname) {
-        this.email = email;
+    public User(String login, String password, String firstname, String lastname) {
+        this.login = login;
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
     }
 
-    public Long getId() {
-        return id;
+    public String getLogin() {
+        return login;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstname() {
@@ -69,8 +64,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
+                ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
