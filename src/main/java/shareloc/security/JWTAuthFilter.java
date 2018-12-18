@@ -17,7 +17,8 @@ import org.jose4j.jwt.JwtClaims;
 import org.jose4j.jwt.consumer.InvalidJwtException;
 import org.jose4j.jwt.consumer.JwtConsumer;
 import org.jose4j.jwt.consumer.JwtConsumerBuilder;
-import shareloc.api.Authentification;
+
+import shareloc.api.LogServices;
 
 @Provider
 @SigninNeeded
@@ -52,7 +53,7 @@ public class JWTAuthFilter implements ContainerRequestFilter {
 
 						@Override
 						public boolean isUserInRole(String role) {
-							List<String> roles = Authentification.findUserRoles(subject);
+							List<String> roles = LogServices.findUserRoles(subject);
 							if (roles != null)
 								return roles.contains(role);
 							return false;

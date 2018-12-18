@@ -2,10 +2,9 @@ package shareloc.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 @Entity
@@ -13,28 +12,28 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    public String login;
-    @JsonProperty(access = Access.WRITE_ONLY)
-    public String password;
-    public String firstname;
-    public String lastname;
+    private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    private String firstname;
+    private String lastname;
 
     public User() {
     }
 
-    public User(String login, String password, String firstname, String lastname) {
-        this.login = login;
+    public User(String email, String password, String firstname, String lastname) {
+        this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFirstname() {
@@ -64,7 +63,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
-                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
