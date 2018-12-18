@@ -5,6 +5,7 @@
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 
         <class>shareloc.model.User</class>
+        <class>shareloc.model.Colocation</class>
 
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc?serverTimezone=UTC"/>
