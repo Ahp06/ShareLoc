@@ -6,11 +6,11 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-public class ApiService<T> {
+public class AbstractServices<T> {
 
     private final AbstractDao<T> dao;
 
-    public ApiService(Class<T> serviceClass) {
+    public AbstractServices(Class<T> serviceClass) {
         this.dao = new AbstractDao<T>(serviceClass);
     }
 

@@ -1,17 +1,16 @@
 package shareloc.dao;
 
+import shareloc.model.Colocation;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * This class was given by Mr Wemmert in the P52 UE
- *
- * @author Cedric Wemmert
- */
 public class AbstractDao<T> {
 
     private static final String UNIT_NAME = "sharelocPU";
@@ -111,5 +110,22 @@ public class AbstractDao<T> {
         cq.select(em.getCriteriaBuilder().count(rt));
         javax.persistence.Query q = em.createQuery(cq);
         return (Long) q.getSingleResult();
+    }
+
+    /**
+     * Return an instance of the Entity by table value
+     * @param table
+     * @param value
+     * @return
+     */
+    public T findByTable(String table, String value) {
+        CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        final CriteriaQuery<T> query = criteriaBuilder.createQuery(clazz);
+        Root<T> root = query.from(clazz);
+        query.where(criteriaBuilder.equal(root.get(table),value));
+
+        List<T> results = getEntityManager().createQuery(query).getResultList();
+        if(results.size() > 0) return results.get(0);
+        return null;
     }
 }

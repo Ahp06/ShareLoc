@@ -1,6 +1,13 @@
 package shareloc.dao;
 
+import shareloc.model.Colocation;
 import shareloc.model.User;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.Root;
+import java.util.List;
 
 public class UserDao extends AbstractDao<User> {
 
@@ -8,25 +15,12 @@ public class UserDao extends AbstractDao<User> {
         super(User.class);
     }
 
-    public boolean createUser(String email, String password, String firstname, String lastname) {
-        if (this.find(email) == null) {
-            if (!(email.equals("") && password.equals("") && firstname.equals("") && lastname.equals(""))) {
-                User user = new User(email, password, firstname, lastname);
-                this.create(user);
-                return true;
-            }
-        }
-        return false;
-    }
+    /*public List<Colocation> getMyColocations(String email){
+        CriteriaBuilder cb = this.getEntityManager().getCriteriaBuilder();
+        CriteriaQuery<Colocation> query = cb.createQuery(Colocation.class);
+        Root<Colocation> colocs = query.from(Colocation.class);
 
-    public boolean login(String email, String password){
-        User u = this.find(email);
-        return (u!=null && u.getPassword().equals(password));
-    }
-
-    public User getUser(String email){
-        if (email == null)
-            return null;
-        return this.find(email);
-    }
+        Join<User, Colocation> myColocs = colocs.join("colocs");
+        query.select(colocs).where(cb.equal(teacher.get("firstName"), "prasad"));
+    }*/
 }

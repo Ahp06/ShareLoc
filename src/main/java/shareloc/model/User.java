@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -12,9 +13,11 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
+    @GeneratedValue
+    private Long id;
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String password;
+    public String password;
     private String firstname;
     private String lastname;
 
@@ -63,6 +66,7 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" +
+                "id=" + id +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", firstname='" + firstname + '\'' +

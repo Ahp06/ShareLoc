@@ -36,10 +36,10 @@ public class JWTAuthFilter implements ContainerRequestFilter {
 			try {
 				// test de validation de la signature et décodage du contenu du token
 				final String subject = validate(authHeader.split(" ")[1]);
-
 				// définition du contexte de sécurité
 				final SecurityContext securityContext = requestContext.getSecurityContext();
 				if (subject != null) {
+					System.out.println("Subject not null ! ");
 					requestContext.setSecurityContext(new SecurityContext() {
 						@Override
 						public Principal getUserPrincipal() {

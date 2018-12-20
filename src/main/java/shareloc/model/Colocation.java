@@ -1,16 +1,17 @@
 package shareloc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.annotation.Generated;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Colocation implements Serializable {
 
     @Id
+    @GeneratedValue
+    private Long id;
     private String name;
     @OneToOne
     private User admin;
@@ -21,8 +22,11 @@ public class Colocation implements Serializable {
 
     }
 
-    public Colocation(String name){
+    public Colocation(String name, User admin){
         this.name = name;
+        this.admin = admin;
+        this.members = new ArrayList<>();
+        members.add(admin);
     }
 
     public String getName() {
@@ -52,7 +56,8 @@ public class Colocation implements Serializable {
     @Override
     public String toString() {
         return "Colocation{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", admin=" + admin +
                 ", members=" + members +
                 '}';

@@ -1,6 +1,6 @@
 package shareloc.api;
 
-import shareloc.dao.UserDao;
+import shareloc.dao.DaoManager;
 import shareloc.model.User;
 import shareloc.security.JWTokenUtility;
 import shareloc.security.SigninNeeded;
@@ -15,17 +15,15 @@ import java.util.List;
 @Path("/")
 public class LogServices {
 
-    public final UserDao userDao = new UserDao();
-
     public LogServices() {
     }
 
     @GET
     @SigninNeeded
-    @Path("/whoami")
+    @Path("whoami")
     @Produces(MediaType.APPLICATION_JSON)
     public Response whoami(@Context SecurityContext security) {
-        User user = userDao.getUser(security.getUserPrincipal().getName());
+        User user = DaoManager.getUser(security.getUserPrincipal().getName());
         if (user!=null)
             return Response.ok().entity(user).build();
         return Response.status(Response.Status.NO_CONTENT).build();
@@ -36,7 +34,7 @@ public class LogServices {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signup(@QueryParam("email") String email, @QueryParam("password") String password,
                            @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
-        if (userDao.createUser(email, password, firstname, lastname))
+        if (DaoManager.createUser(email, password, firstname, lastname))
             return Response.status(Response.Status.CREATED).build();
         return Response.status(Response.Status.CONFLICT).build();
 
@@ -46,8 +44,9 @@ public class LogServices {
     @Path("signin")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signin(@QueryParam("email") String email, @QueryParam("password") String password){
-        if(userDao.login(email,password)) {
-            return Response.ok().entity(JWTokenUtility.buildJWT(email)).build();
+        User user = DaoManager.login(email,password);
+        if(user != null) {
+            return Response.ok().entity(JWTokenUtility.buildJWT(user.getEmail())).build();
         }
         return Response.status(Response.Status.NOT_ACCEPTABLE).build();
     }
