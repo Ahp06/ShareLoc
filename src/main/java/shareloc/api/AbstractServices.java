@@ -32,34 +32,4 @@ public class AbstractServices<T> {
                 .entity(obj)
                 .build();
     }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response create(T resource) {
-        // TODO: error checking & management
-        dao.create(resource);
-        return Response.status(Response.Status.CREATED)
-                .entity("Saved : " + resource)
-                .build();
-    }
-
-    @DELETE
-    @Path("{id}")
-    public Response delete(@PathParam("id") Integer id) {
-        final T obj = dao.find(id);
-        if (obj == null) return Response.status(Response.Status.NOT_FOUND).build();
-        dao.remove(obj);
-        return Response.ok().build();
-    }
-
-    @PUT
-    @Path("{id}")
-    public Response edit(@PathParam("id") Integer id) {
-        final T obj = dao.find(id);
-        if (obj == null) return Response.status(Response.Status.NOT_FOUND).build();
-        dao.edit(obj);
-        return Response.status(Response.Status.CREATED)
-                .entity("Updated : " + obj)
-                .build();
-    }
 }
