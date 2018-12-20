@@ -68,7 +68,10 @@ public class AbstractDao<T> {
      * @param entite
      */
     public void remove(T entite) {
-        getEntityManager().remove(getEntityManager().merge(entite));
+        final EntityManager em = getEntityManager();
+        em.getTransaction().begin();
+        em.remove(getEntityManager().merge(entite));
+        em.getTransaction().commit();
     }
 
     /**

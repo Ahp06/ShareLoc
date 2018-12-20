@@ -19,11 +19,21 @@ public class ColocationServices extends AbstractServices<Colocation> {
     }
 
     @POST
-    @Path("newColocation")
+    @Path("new")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addColocation(@QueryParam("name") String name, @QueryParam("email") String email){
         if(DaoManager.createColocation(name,email)){
             return Response.status(Response.Status.CREATED).build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @POST
+    @Path("remove")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response removeColocation(@QueryParam("name") String name, @QueryParam("email") String email){
+        if(DaoManager.removeColocation(name,email)){
+            return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
     }

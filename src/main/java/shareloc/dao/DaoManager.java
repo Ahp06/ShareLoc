@@ -88,7 +88,12 @@ public class DaoManager {
         return false;
     }
 
-    public static boolean deleteColocation(String name, String email){
+    public static boolean removeColocation(String name, String email){
+        Colocation colocation = DaoManager.getColocation(name);
+        if(colocation != null && email.equals(colocation.getAdmin().getEmail())){
+            colocationDao.remove(colocation);
+            return true;
+        }
         return false;
     }
 
