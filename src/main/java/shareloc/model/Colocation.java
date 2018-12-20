@@ -53,6 +53,10 @@ public class Colocation implements Serializable {
         this.members = members;
     }
 
+    public void addMember(User user){
+        this.members.add(user);
+    }
+
     @Override
     public String toString() {
         return "Colocation{" +

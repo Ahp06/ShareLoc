@@ -47,11 +47,11 @@ public class DaoManager {
         return u;
     }
 
-    public static boolean createColocation(String name) {
-
+    public static boolean createColocation(String name, String admin_email) {
+        User admin = DaoManager.getUser(admin_email);
         if (colocationDao.findByTable(TABLE_NAME, name) == null) {
             if (!(name.equals(""))) {
-                Colocation colocation = new Colocation(name, null); //NULL à enlever qd le whoami sera fixé!
+                Colocation colocation = new Colocation(name, admin);
                 colocationDao.create(colocation);
                 return true;
             }
@@ -59,8 +59,37 @@ public class DaoManager {
         return false;
     }
 
-    public static List<Colocation> getColocationsIBelongTo(String email){
-
-        return null;
+    public static Colocation getColocation(String name) {
+        if (name == null) return null;
+        Colocation colocation = colocationDao.findByTable(TABLE_NAME, name);
+        return colocation;
     }
+
+    public static boolean inviteUserIntoColocation(String name, String email){
+        Colocation colocation = DaoManager.getColocation(name);
+        User user = DaoManager.getUser(email);
+        if(user == null || colocation == null){
+            return false;
+        }
+        //Check if user is already in
+        int cpt = 0;
+        for(User u : colocation.getMembers()){
+            if(u.getEmail().equals(email)){
+                cpt ++;
+            }
+        }
+
+        if (cpt == 0){
+            colocation.addMember(user);
+            colocationDao.edit(colocation);
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean deleteColocation(String name, String email){
+        return false;
+    }
+
 }
