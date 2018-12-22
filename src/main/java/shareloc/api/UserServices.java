@@ -20,9 +20,9 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("edit")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editFirstLastNames(@QueryParam("email") String email,
-                                       @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname){
-        if(DaoManager.editUser(email,firstname,lastname)){
+    public Response editFirstLastNames(@QueryParam("email") String email, @QueryParam("password") String password,
+                                       @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
+        if (DaoManager.editUser(email, password, firstname, lastname)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();

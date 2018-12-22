@@ -49,13 +49,15 @@ public class DaoManager {
         return u;
     }
 
-    public static boolean editUser(String email, String firstname, String lastname) {
+    public static boolean editUser(String email, String password, String firstname, String lastname) {
         User user = DaoManager.getUser(email);
-        if (user != null && firstname != null && lastname != null && firstname != "" && lastname != "") {
-            user.setFirstname(firstname);
-            user.setLastname(lastname);
-            userDao.edit(user);
-            return true;
+        if (user.getPassword().equals(password)) {
+            if (user != null && firstname != null && lastname != null && firstname != "" && lastname != "") {
+                user.setFirstname(firstname);
+                user.setLastname(lastname);
+                userDao.edit(user);
+                return true;
+            }
         }
         return false;
     }
@@ -106,15 +108,17 @@ public class DaoManager {
         return colocation;
     }
 
-    public static boolean inviteUserIntoColocation(String name, String email) {
+    public static boolean inviteUserIntoColocation(String name, String admin_email, String email) {
         Colocation colocation = DaoManager.getColocation(name);
-        User user = DaoManager.getUser(email);
-        if (user == null || colocation == null) {
+        User invited = DaoManager.getUser(email);
+        User admin = DaoManager.getUser(admin_email);
+
+        if (admin == null || invited == null || colocation == null) {
             return false;
         }
 
-        if (!userIsIntoColoc(user, colocation)) {
-            colocation.addMember(user);
+        if (isAdmin(admin, colocation) && !userIsIntoColoc(invited, colocation)) {
+            colocation.addMember(invited);
             colocationDao.edit(colocation);
             return true;
         }
@@ -136,9 +140,6 @@ public class DaoManager {
         Colocation colocation = DaoManager.getColocation(name);
         User admin = DaoManager.getUser(admin_email);
         if (colocation != null && admin != null && admin.getEmail().equals(colocation.getAdmin().getEmail())) {
-            System.out.println("admin_email : " + admin_email);
-            System.out.println("colocation admin : " + colocation.getAdmin().getEmail());
-            System.out.println("colocation name : " + colocation.getName());
             colocation.setName(newName);
             colocationDao.edit(colocation);
             return true;
@@ -152,7 +153,7 @@ public class DaoManager {
         Colocation colocation = DaoManager.getColocation(name);
 
         if (colocation != null && admin != null && toDelete != null) {
-            if (DaoManager.isAdmin(admin, colocation) && DaoManager.userIsIntoColoc(toDelete, colocation)) {
+            if (isAdmin(admin, colocation) && userIsIntoColoc(toDelete, colocation)) {
                 colocation.getMembers().remove(toDelete);
                 colocationDao.edit(colocation);
                 return true;

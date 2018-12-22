@@ -40,8 +40,8 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @POST
     @Path("invite")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response sendInvitation(@QueryParam("name") String name, @QueryParam("email") String email) {
-        if (DaoManager.inviteUserIntoColocation(name, email)) {
+    public Response sendInvitation(@QueryParam("name") String name, @QueryParam("admin") String admin, @QueryParam("email") String email) {
+        if (DaoManager.inviteUserIntoColocation(name, admin, email)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();

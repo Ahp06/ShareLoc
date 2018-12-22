@@ -6,6 +6,7 @@
 
         <class>shareloc.model.User</class>
         <class>shareloc.model.Colocation</class>
+        <class>shareloc.model.Service</class>
 
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc?serverTimezone=UTC"/>
