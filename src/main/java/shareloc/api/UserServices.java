@@ -29,4 +29,14 @@ public class UserServices extends AbstractServices<User> {
         return Response.status(Response.Status.CONFLICT).build();
     }
 
+    @POST
+    @Path("quit")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response quitColocation(@QueryParam("email") String email, @QueryParam("name") String coloc_name){
+        if(UserManager.quitColocation(email,coloc_name)){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
 }

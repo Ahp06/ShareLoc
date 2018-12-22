@@ -50,8 +50,7 @@ public class UserManager extends DaoManager {
     public static boolean quitColocation(String email, String name) {
         User user = getUser(email);
         Colocation colocation = getColocation(name);
-
-        if (user != null && colocation != null) {
+        if (user != null && colocation != null && !isAdmin(user,colocation)) {
             colocation.getMembers().remove(user);
             colocationDao.edit(colocation);
             return true;
