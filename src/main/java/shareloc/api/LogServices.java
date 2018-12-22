@@ -1,6 +1,7 @@
 package shareloc.api;
 
-import shareloc.dao.DaoManager;
+import shareloc.manager.DaoManager;
+import shareloc.manager.UserManager;
 import shareloc.model.User;
 import shareloc.security.JWTokenUtility;
 import shareloc.security.SigninNeeded;
@@ -23,7 +24,7 @@ public class LogServices {
     @Path("whoami")
     @Produces(MediaType.APPLICATION_JSON)
     public Response whoami(@Context SecurityContext security) {
-        User user = DaoManager.getUser(security.getUserPrincipal().getName());
+        User user = UserManager.getUser(security.getUserPrincipal().getName());
         if (user!=null)
             return Response.ok().entity(user).build();
         return Response.status(Response.Status.NO_CONTENT).build();
@@ -34,7 +35,7 @@ public class LogServices {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signup(@QueryParam("email") String email, @QueryParam("password") String password,
                            @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
-        if (DaoManager.createUser(email, password, firstname, lastname))
+        if (UserManager.createUser(email, password, firstname, lastname))
             return Response.status(Response.Status.CREATED).build();
         return Response.status(Response.Status.CONFLICT).build();
 
@@ -44,7 +45,7 @@ public class LogServices {
     @Path("signin")
     @Consumes(MediaType.APPLICATION_JSON)
     public Response signin(@QueryParam("email") String email, @QueryParam("password") String password){
-        User user = DaoManager.login(email,password);
+        User user = UserManager.login(email,password);
         if(user != null) {
             return Response.ok().entity(JWTokenUtility.buildJWT(user.getEmail())).build();
         }

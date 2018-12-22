@@ -1,6 +1,6 @@
 package shareloc.api;
 
-import shareloc.dao.DaoManager;
+import shareloc.manager.ColocationManager;
 import shareloc.model.Colocation;
 
 import javax.ws.rs.POST;
@@ -21,7 +21,7 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @Path("new")
     @Produces(MediaType.APPLICATION_JSON)
     public Response addColocation(@QueryParam("name") String name, @QueryParam("admin") String admin_email) {
-        if (DaoManager.createColocation(name, admin_email)) {
+        if (ColocationManager.createColocation(name, admin_email)) {
             return Response.status(Response.Status.CREATED).build();
         }
         return Response.status(Response.Status.CONFLICT).build();
@@ -31,7 +31,7 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @Path("remove")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeColocation(@QueryParam("name") String name, @QueryParam("admin") String admin_email) {
-        if (DaoManager.removeColocation(name, admin_email)) {
+        if (ColocationManager.removeColocation(name, admin_email)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
@@ -41,7 +41,7 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @Path("invite")
     @Produces(MediaType.APPLICATION_JSON)
     public Response sendInvitation(@QueryParam("name") String name, @QueryParam("admin") String admin, @QueryParam("email") String email) {
-        if (DaoManager.inviteUserIntoColocation(name, admin, email)) {
+        if (ColocationManager.inviteUserIntoColocation(name, admin, email)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
@@ -51,7 +51,7 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @Path("editName")
     @Produces(MediaType.APPLICATION_JSON)
     public Response editColocationName(@QueryParam("name") String name, @QueryParam("admin") String admin_email, @QueryParam("newName") String newName) {
-        if (DaoManager.editColocationName(name, admin_email, newName)) {
+        if (ColocationManager.editColocationName(name, admin_email, newName)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
@@ -61,7 +61,7 @@ public class ColocationServices extends AbstractServices<Colocation> {
     @Path("removeMember")
     @Produces(MediaType.APPLICATION_JSON)
     public Response removeMember(@QueryParam("name") String name, @QueryParam("admin") String admin_email, @QueryParam("email") String member_email) {
-        if (DaoManager.removeMemberFromColoc(name, admin_email, member_email)) {
+        if (ColocationManager.removeMemberFromColoc(name, admin_email, member_email)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
