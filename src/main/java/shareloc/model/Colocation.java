@@ -1,6 +1,5 @@
 package shareloc.model;
 
-import javax.annotation.Generated;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
