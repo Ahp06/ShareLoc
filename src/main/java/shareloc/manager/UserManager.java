@@ -1,6 +1,7 @@
 package shareloc.manager;
 
 import shareloc.model.Colocation;
+import shareloc.model.Service;
 import shareloc.model.User;
 
 import java.util.List;
@@ -59,4 +60,14 @@ public class UserManager extends DaoManager {
     }
 
 
+    public static boolean vote(Long serviceID, int vote) {
+        Service service = serviceDao.find(serviceID);
+        if(service != null){
+            if (vote == 1) service.upVote();
+            else service.downVote();
+            serviceDao.edit(service);
+            return true;
+        }
+        return false;
+    }
 }

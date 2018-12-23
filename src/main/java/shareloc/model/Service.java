@@ -1,31 +1,37 @@
 package shareloc.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 public class Service implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
     private String description;
-    private Long cost;
+    private int cost;
+    private int upVotes;
+    private int downVotes;
+
     @OneToOne
     private Colocation colocation;
+    @OneToOne
+    private User created_by;
+
 
     public Service(){
     }
 
-    public Service(String title, String description, Long cost, Colocation colocation) {
+    public Service(Colocation colocation, User created_by, String title, String description, int cost) {
+        this.colocation = colocation;
+        this.created_by = created_by;
         this.title = title;
         this.description = description;
         this.cost = cost;
-        this.colocation = colocation;
+        this.upVotes = 0;
+        this.downVotes = 0;
     }
 
     public String getTitle() {
@@ -44,11 +50,11 @@ public class Service implements Serializable {
         this.description = description;
     }
 
-    public Long getCost() {
+    public int getCost() {
         return cost;
     }
 
-    public void setCost(Long cost) {
+    public void setCost(int cost) {
         this.cost = cost;
     }
 
@@ -60,6 +66,22 @@ public class Service implements Serializable {
         this.colocation = colocation;
     }
 
+    public int getUpVotes(){
+        return this.upVotes;
+    }
+
+    public void upVote(){
+        this.upVotes ++;
+    }
+
+    public int getDownVotes(){
+        return this.downVotes;
+    }
+
+    public void downVote(){
+        this.downVotes ++;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
@@ -68,6 +90,7 @@ public class Service implements Serializable {
                 ", description='" + description + '\'' +
                 ", cost=" + cost +
                 ", colocation=" + colocation +
+                ", created_by=" + created_by +
                 '}';
     }
 }

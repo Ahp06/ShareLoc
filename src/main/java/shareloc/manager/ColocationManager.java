@@ -5,6 +5,10 @@ import shareloc.model.User;
 
 public class ColocationManager extends DaoManager {
 
+    public ColocationManager() {
+        super();
+    }
+
     public static boolean createColocation(String name, String admin_email) {
         User admin = getUser(admin_email);
         if (admin != null && getColocation(name) == null) {

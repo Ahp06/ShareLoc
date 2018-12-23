@@ -2,6 +2,7 @@ package shareloc.api;
 
 import shareloc.manager.DaoManager;
 import shareloc.manager.UserManager;
+import shareloc.model.Service;
 import shareloc.model.User;
 
 import javax.ws.rs.POST;
@@ -34,6 +35,16 @@ public class UserServices extends AbstractServices<User> {
     @Produces(MediaType.APPLICATION_JSON)
     public Response quitColocation(@QueryParam("email") String email, @QueryParam("name") String coloc_name){
         if(UserManager.quitColocation(email,coloc_name)){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @POST
+    @Path("vote")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response vote(@QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote){
+        if(UserManager.vote(serviceID,vote)){
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();

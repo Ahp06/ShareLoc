@@ -1,8 +1,10 @@
 package shareloc.manager;
 
 import shareloc.dao.ColocationDao;
+import shareloc.dao.ServiceDao;
 import shareloc.dao.UserDao;
 import shareloc.model.Colocation;
+import shareloc.model.Service;
 import shareloc.model.User;
 
 public class DaoManager {
@@ -10,6 +12,7 @@ public class DaoManager {
     //Dao
     protected static final UserDao userDao = new UserDao();
     protected static final ColocationDao colocationDao = new ColocationDao();
+    protected static final ServiceDao serviceDao = new ServiceDao();
 
     //Table names
     protected static final String TABLE_EMAIL = "email";

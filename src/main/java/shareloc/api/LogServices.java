@@ -43,7 +43,7 @@ public class LogServices {
 
     @POST
     @Path("signin")
-    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response signin(@QueryParam("email") String email, @QueryParam("password") String password){
         User user = UserManager.login(email,password);
         if(user != null) {
