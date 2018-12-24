@@ -65,26 +65,19 @@ public class UserManager extends DaoManager {
         Service service = serviceDao.find(serviceID);
         Colocation colocation = service.getColocation();
 
-        if(user != null && service != null && userIsIntoColoc(user,colocation) && !service.getUserWhoVoted().contains(user)){
+        if (user != null && service != null && userIsIntoColoc(user, colocation)
+                && !service.getUserWhoVoted().contains(user)) {
             if (vote == 1) service.upVote();
             else service.downVote();
             service.getUserWhoVoted().add(user);
             serviceDao.edit(service);
-            return true;
-        }
-        return false;
-    }
 
-    public static boolean validService(Long serviceID) {
-        Service service = serviceDao.find(serviceID);
-
-        if(service != null){
             int votes_number = service.getUpVotes() + service.getDownVotes();
             int members_number = service.getColocation().getMembers().size();
-            if(votes_number > members_number/2){
-                if(!service.isAccepted()) serviceDao.remove(service);
-                return true;
+            if (votes_number > members_number / 2) {
+                if (!service.isAccepted()) serviceDao.remove(service);
             }
+            return true;
         }
         return false;
     }

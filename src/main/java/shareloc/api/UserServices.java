@@ -50,14 +50,4 @@ public class UserServices extends AbstractServices<User> {
         return Response.status(Response.Status.CONFLICT).build();
     }
 
-    @POST
-    @Path("validService")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response validService(@QueryParam("serviceID") Long serviceID){
-        if(UserManager.validService(serviceID)){
-            return Response.ok().build();
-        }
-        return Response.status(Response.Status.CONFLICT).build();
-    }
-
 }
