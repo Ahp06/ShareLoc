@@ -53,8 +53,8 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("validService")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response validService(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID){
-        if(UserManager.validService(email,serviceID)){
+    public Response validService(@QueryParam("serviceID") Long serviceID){
+        if(UserManager.validService(serviceID)){
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
