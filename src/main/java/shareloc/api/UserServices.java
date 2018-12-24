@@ -43,8 +43,18 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("vote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response vote(@QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote){
-        if(UserManager.vote(serviceID,vote)){
+    public Response vote(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote){
+        if(UserManager.vote(email,serviceID,vote)){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @POST
+    @Path("validService")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response validService(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID){
+        if(UserManager.validService(email,serviceID)){
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();

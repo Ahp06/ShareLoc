@@ -60,13 +60,30 @@ public class UserManager extends DaoManager {
     }
 
 
-    public static boolean vote(Long serviceID, int vote) {
+    public static boolean vote(String email, Long serviceID, int vote) {
+        User user = getUser(email);
         Service service = serviceDao.find(serviceID);
-        if(service != null){
+
+        if(user != null && service != null && !service.getUserWhoVoted().contains(user)){
             if (vote == 1) service.upVote();
             else service.downVote();
             serviceDao.edit(service);
             return true;
+        }
+        return false;
+    }
+
+    public static boolean validService(String email, Long serviceID) {
+        User user = getUser(email);
+        Service service = serviceDao.find(serviceID);
+
+        if(user != null && service != null){
+            int votes_number = service.getUpVotes() + service.getDownVotes();
+            int members_number = service.getColocation().getMembers().size();
+            if(votes_number > members_number/2){
+                if(!service.isAccepted()) serviceDao.remove(service);
+                return true;
+            }
         }
         return false;
     }

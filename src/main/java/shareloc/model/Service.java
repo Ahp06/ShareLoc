@@ -2,6 +2,8 @@ package shareloc.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Service implements Serializable {
@@ -19,6 +21,8 @@ public class Service implements Serializable {
     private Colocation colocation;
     @OneToOne
     private User created_by;
+    @OneToMany
+    private List<User> userWhoVoted;
 
 
     public Service(){
@@ -32,6 +36,7 @@ public class Service implements Serializable {
         this.cost = cost;
         this.upVotes = 0;
         this.downVotes = 0;
+        this.userWhoVoted = new ArrayList<>();
     }
 
     public String getTitle() {
@@ -80,6 +85,18 @@ public class Service implements Serializable {
 
     public void downVote(){
         this.downVotes ++;
+    }
+
+    public boolean isAccepted() {
+        return this.upVotes > this.downVotes;
+    }
+
+    public List<User> getUserWhoVoted() {
+        return userWhoVoted;
+    }
+
+    public void setUserWhoVoted(List<User> voted_for) {
+        this.userWhoVoted = voted_for;
     }
 
     @Override
