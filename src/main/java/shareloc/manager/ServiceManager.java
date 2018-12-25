@@ -10,12 +10,22 @@ public class ServiceManager extends DaoManager {
         super();
     }
 
+    /**
+     * Creates a new service
+     *
+     * @param email
+     * @param colocationName
+     * @param title
+     * @param description
+     * @param cost
+     * @return
+     */
     public static boolean createService(String email, String colocationName, String title, String description, int cost) {
         User creator = getUser(email);
         Colocation colocation = getColocation(colocationName);
 
-        if(creator != null && colocation != null){
-            Service service = new Service(colocation, creator, title,description,cost);
+        if (creator != null && colocation != null) {
+            Service service = new Service(colocation, creator, title, description, cost);
             serviceDao.create(service);
             return true;
         }

@@ -1,7 +1,6 @@
 package shareloc.model;
 
 import javax.persistence.*;
-import java.net.URI;
 import java.util.Date;
 import java.util.List;
 
@@ -69,5 +68,17 @@ public class AchievedService {
 
     public void setValidated(boolean validated) {
         this.validated = validated;
+    }
+
+    @Override
+    public String toString() {
+        return "AchievedService{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                ", date=" + date +
+                ", picture='" + picture + '\'' +
+                ", validated=" + validated +
+                '}';
     }
 }

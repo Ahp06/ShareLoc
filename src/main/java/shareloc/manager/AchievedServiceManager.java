@@ -38,6 +38,14 @@ public class AchievedServiceManager extends DaoManager {
         }
     }
 
+    /**
+     * Declare the realization of a service
+     * @param email
+     * @param serviceID
+     * @param date
+     * @param picture
+     * @return
+     */
     public static boolean newAchievedService(String email, Long serviceID, Date date, String picture) {
         Service service = serviceDao.find(serviceID);
         User user = getUser(email);

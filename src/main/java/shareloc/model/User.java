@@ -18,7 +18,7 @@ public class User implements Serializable {
     private Long id;
     private String email;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    public String password;
+    private String password;
     private String firstname;
     private String lastname;
 
