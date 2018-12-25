@@ -1,5 +1,6 @@
 package shareloc.manager;
 
+import shareloc.dao.AchievedServiceDao;
 import shareloc.dao.ColocationDao;
 import shareloc.dao.ServiceDao;
 import shareloc.dao.UserDao;
@@ -13,6 +14,7 @@ public class DaoManager {
     protected static final UserDao userDao = new UserDao();
     protected static final ColocationDao colocationDao = new ColocationDao();
     protected static final ServiceDao serviceDao = new ServiceDao();
+    protected static final AchievedServiceDao achievedServiceDao = new AchievedServiceDao();
 
     //Table names
     protected static final String TABLE_EMAIL = "email";
