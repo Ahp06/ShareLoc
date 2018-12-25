@@ -25,7 +25,7 @@ public class Service implements Serializable {
     private List<User> userWhoVoted;
 
 
-    public Service(){
+    public Service() {
     }
 
     public Service(Colocation colocation, User created_by, String title, String description, int cost) {
@@ -71,20 +71,20 @@ public class Service implements Serializable {
         this.colocation = colocation;
     }
 
-    public int getUpVotes(){
+    public int getUpVotes() {
         return this.upVotes;
     }
 
-    public void upVote(){
-        this.upVotes ++;
+    public void upVote() {
+        this.upVotes++;
     }
 
-    public int getDownVotes(){
+    public int getDownVotes() {
         return this.downVotes;
     }
 
-    public void downVote(){
-        this.downVotes ++;
+    public void downVote() {
+        this.downVotes++;
     }
 
     public boolean isAccepted() {
