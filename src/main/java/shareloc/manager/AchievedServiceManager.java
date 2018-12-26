@@ -1,6 +1,7 @@
 package shareloc.manager;
 
 import shareloc.model.AchievedService;
+import shareloc.model.Image;
 import shareloc.model.Service;
 import shareloc.model.User;
 
@@ -11,12 +12,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.file.Files;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 public class AchievedServiceManager extends DaoManager {
 
@@ -25,24 +28,22 @@ public class AchievedServiceManager extends DaoManager {
     }
 
     /**
-     * Download the user img on disk with this format : /imgs/img_current_timestamp
-     *
+     * Store into the DB a new Image entity
      * @param imgPath
+     * @return
      */
-    public static void downloadImg(String imgPath, String output) {
+    public static Image downloadImg(String imgPath) {
+        File img = new File(imgPath);
         try {
-            Iterator writers = ImageIO.getImageWritersByFormatName("jpg");
-            ImageWriter writer = (ImageWriter)writers.next();
+            byte[] bytes = Files.readAllBytes(img.toPath());
+            Image image = new Image(bytes);
+            imageDao.create(image);
+            return image;
 
-            File f = new File(output);
-            ImageOutputStream ios = ImageIO.createImageOutputStream(f);
-            writer.setOutput(ios);
-
-            BufferedImage bf = ImageIO.read(new File(imgPath));
-            writer.write(bf);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     /**
@@ -55,32 +56,32 @@ public class AchievedServiceManager extends DaoManager {
      * @return
      */
     public static boolean newAchievedService(String email, Long serviceID, String date, String picture) {
+
+        Service service = serviceDao.find(serviceID);
+        User user = getUser(email);
+
+        if (user == null || service == null || date == null) {
+            return false;
+        }
+
+        List<User> to = service.getColocation().getMembers();
+        to.remove(user); //users who benefit from the service
+
+        Image image = downloadImg(picture);
+
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
+        Date achieved_date = null;
         try {
-            Service service = serviceDao.find(serviceID);
-            User user = getUser(email);
-
-            if (user == null || service == null || date == null) {
-                return false;
-            }
-
-            List<User> to = service.getColocation().getMembers();
-            to.remove(user); //users who benefit from the service
-
-            Date today = new Date();
-            SimpleDateFormat formater = new SimpleDateFormat("yyyyMMddHHmmss");
-            String imgName = "\\AppIntAv\\imgs" +formater.format(today).toString() + ".jpg";
-
-            downloadImg(picture, imgName);
-
-            DateFormat dateFormat = new SimpleDateFormat("dd_MM_yyyy");
-            Date achieved_date = dateFormat.parse(date);
-            AchievedService achievedService = new AchievedService(user, to,
-                    achieved_date, imgName, false);
-            achievedServiceDao.create(achievedService);
-
+            achieved_date = dateFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+        AchievedService achievedService = new AchievedService(user, to,
+                achieved_date, image, false);
+        achievedServiceDao.create(achievedService);
+
+
         return true;
     }
 }
