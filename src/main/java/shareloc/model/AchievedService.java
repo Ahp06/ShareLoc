@@ -15,14 +15,14 @@ public class AchievedService {
     @OneToMany
     private List<User> to;
     private Date date;
-    //We will store in the DB the path on the disk to the downloaded picture
-    private String picture;
+    @OneToOne
+    private Image picture;
     private boolean validated;
 
-    public AchievedService(){
+    public AchievedService() {
     }
 
-    public AchievedService(User from, List<User> to, Date date, String picture, boolean validated) {
+    public AchievedService(User from, List<User> to, Date date, Image picture, boolean validated) {
         this.from = from;
         this.to = to;
         this.date = date;
@@ -54,11 +54,11 @@ public class AchievedService {
         this.date = date;
     }
 
-    public String getPicture() {
+    public Image getPicture() {
         return picture;
     }
 
-    public void setPicture(String picture) {
+    public void setPicture(Image picture) {
         this.picture = picture;
     }
 
