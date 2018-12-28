@@ -16,6 +16,8 @@ public class Colocation implements Serializable {
     private User admin;
     @OneToMany
     private List<User> members;
+    @OneToMany
+    private List<Message> messages;
 
     public Colocation(){
 
@@ -26,6 +28,7 @@ public class Colocation implements Serializable {
         this.admin = admin;
         this.members = new ArrayList<>();
         members.add(admin);
+        this.messages = new ArrayList<>();
     }
 
     public String getName() {
@@ -54,6 +57,14 @@ public class Colocation implements Serializable {
 
     public void addMember(User user){
         this.members.add(user);
+    }
+
+    public void addMessage(Message message){
+        this.messages.add(message);
+    }
+
+    public List<Message> getMessages(){
+        return this.messages;
     }
 
     @Override

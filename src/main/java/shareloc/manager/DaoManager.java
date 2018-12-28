@@ -18,6 +18,7 @@ public class DaoManager {
     protected static final ServiceDao serviceDao = new ServiceDao();
     protected static final AchievedServiceDao achievedServiceDao = new AchievedServiceDao();
     protected static final ImageDao imageDao = new ImageDao();
+    protected static final MessageDao messageDao = new MessageDao();
 
     //Table names
     protected static final String TABLE_EMAIL = "email";
