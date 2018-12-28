@@ -21,6 +21,7 @@ public class User implements Serializable {
     private String password;
     private String firstname;
     private String lastname;
+    private int score;
 
     public User() {
     }
@@ -30,6 +31,7 @@ public class User implements Serializable {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
+        this.score = 100;
     }
 
     public Long getId() {

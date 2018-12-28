@@ -1,8 +1,6 @@
 package shareloc.api;
 
-import shareloc.manager.DaoManager;
 import shareloc.manager.UserManager;
-import shareloc.model.Service;
 import shareloc.model.User;
 
 import javax.ws.rs.POST;
@@ -33,8 +31,8 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("quit")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response quitColocation(@QueryParam("email") String email, @QueryParam("name") String coloc_name){
-        if(UserManager.quitColocation(email,coloc_name)){
+    public Response quitColocation(@QueryParam("email") String email, @QueryParam("name") String coloc_name) {
+        if (UserManager.quitColocation(email, coloc_name)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
@@ -43,8 +41,18 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("vote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response vote(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote){
-        if(UserManager.vote(email,serviceID,vote)){
+    public Response vote(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote) {
+        if (UserManager.vote(email, serviceID, vote)) {
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @POST
+    @Path("valid")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response valid(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID) {
+        if (UserManager.valid(email, serviceID)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();

@@ -5,19 +5,14 @@ import shareloc.model.Image;
 import shareloc.model.Service;
 import shareloc.model.User;
 
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.nio.file.Files;
-import java.text.DateFormat;
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -29,6 +24,7 @@ public class AchievedServiceManager extends DaoManager {
 
     /**
      * Store into the DB a new Image entity
+     *
      * @param imgPath
      * @return
      */
@@ -53,9 +49,11 @@ public class AchievedServiceManager extends DaoManager {
      * @param serviceID
      * @param date
      * @param picture
+     * @param to_emails
      * @return
      */
-    public static boolean newAchievedService(String email, Long serviceID, String date, String picture) {
+    public static boolean newAchievedService(String email, Long serviceID,
+                                             String date, String picture, List<String> to_emails) {
 
         Service service = serviceDao.find(serviceID);
         User user = getUser(email);
@@ -64,23 +62,29 @@ public class AchievedServiceManager extends DaoManager {
             return false;
         }
 
-        List<User> to = service.getColocation().getMembers();
-        to.remove(user); //users who benefit from the service
+        System.out.println("to emails : " + to_emails);
+
+        //users who benefit from the service
+        List<User> to = new ArrayList<User>();
+        for (String user_email : to_emails) {
+            User to_user = getUser(user_email);
+            if (to_user != null) to.add(to_user);
+        }
 
         Image image = downloadImg(picture);
 
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy", Locale.FRANCE);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd-HH-mm", Locale.FRANCE);
         Date achieved_date = null;
         try {
             achieved_date = dateFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        Timestamp timestamp = new java.sql.Timestamp(achieved_date.getTime());
 
         AchievedService achievedService = new AchievedService(user, to,
-                achieved_date, image, false);
+                timestamp, image, false);
         achievedServiceDao.create(achievedService);
-
 
         return true;
     }

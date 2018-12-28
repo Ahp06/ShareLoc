@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.Date;
+import java.util.List;
 
 @Path("achievedService")
 public class AchievedServiceServices extends AbstractServices<AchievedService> {
@@ -24,12 +24,12 @@ public class AchievedServiceServices extends AbstractServices<AchievedService> {
     public Response newAchievedService(@QueryParam("email") String email,
                                        @QueryParam("serviceID") Long serviceID,
                                        @QueryParam("date") String date,
-                                       @QueryParam("picture") String picture) {
-        if (AchievedServiceManager.newAchievedService(email, serviceID, date, picture)) {
+                                       @QueryParam("picture") String picture,
+                                       @QueryParam("to") List<String> to) {
+
+        if (AchievedServiceManager.newAchievedService(email, serviceID, date, picture,to)) {
             return Response.status(Response.Status.CREATED).build();
         }
         return Response.status(Response.Status.CONFLICT).build();
     }
-
-
 }

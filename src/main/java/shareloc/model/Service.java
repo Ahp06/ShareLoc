@@ -24,7 +24,6 @@ public class Service implements Serializable {
     @OneToMany
     private List<User> userWhoVoted;
 
-
     public Service() {
     }
 

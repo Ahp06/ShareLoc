@@ -1,6 +1,7 @@
 package shareloc.model;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public class AchievedService {
     private User from;
     @OneToMany
     private List<User> to;
-    private Date date;
+    private Timestamp date;
     @OneToOne
     private Image picture;
     private boolean validated;
@@ -22,7 +23,7 @@ public class AchievedService {
     public AchievedService() {
     }
 
-    public AchievedService(User from, List<User> to, Date date, Image picture, boolean validated) {
+    public AchievedService(User from, List<User> to, Timestamp date, Image picture, boolean validated) {
         this.from = from;
         this.to = to;
         this.date = date;
@@ -46,11 +47,11 @@ public class AchievedService {
         this.to = to;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

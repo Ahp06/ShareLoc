@@ -118,4 +118,8 @@ public class UserManager extends DaoManager {
         }
         return false;
     }
+
+    public static boolean valid(String email, Long serviceID){
+        return false;
+    }
 }
