@@ -58,11 +58,9 @@ public class AchievedServiceManager extends DaoManager {
         Service service = serviceDao.find(serviceID);
         User user = getUser(email);
 
-        if (user == null || service == null || date == null) {
+        if (user == null || service == null || date == null || serviceIsAlreadyAchieved(serviceID)) {
             return false;
         }
-
-        System.out.println("to emails : " + to_emails);
 
         //users who benefit from the service
         List<User> to = new ArrayList<User>();
@@ -82,7 +80,7 @@ public class AchievedServiceManager extends DaoManager {
         }
         Timestamp timestamp = new java.sql.Timestamp(achieved_date.getTime());
 
-        AchievedService achievedService = new AchievedService(user, to,
+        AchievedService achievedService = new AchievedService(service, user, to,
                 timestamp, image, false);
         achievedServiceDao.create(achievedService);
 

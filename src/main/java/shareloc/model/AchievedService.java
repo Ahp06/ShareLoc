@@ -12,6 +12,8 @@ public class AchievedService {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
+    private Service service;
+    @OneToOne
     private User from;
     @OneToMany
     private List<User> to;
@@ -23,12 +25,29 @@ public class AchievedService {
     public AchievedService() {
     }
 
-    public AchievedService(User from, List<User> to, Timestamp date, Image picture, boolean validated) {
+    public AchievedService(Service service, User from, List<User> to, Timestamp date, Image picture, boolean validated) {
+        this.service = service;
         this.from = from;
         this.to = to;
         this.date = date;
         this.picture = picture;
         this.validated = validated;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Service getService() {
+        return service;
+    }
+
+    public void setService(Service service) {
+        this.service = service;
     }
 
     public User getFrom() {
@@ -75,10 +94,11 @@ public class AchievedService {
     public String toString() {
         return "AchievedService{" +
                 "id=" + id +
+                ", service=" + service +
                 ", from=" + from +
                 ", to=" + to +
                 ", date=" + date +
-                ", picture='" + picture + '\'' +
+                ", picture=" + picture +
                 ", validated=" + validated +
                 '}';
     }

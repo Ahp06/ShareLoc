@@ -20,8 +20,10 @@ public class ServiceServices extends AbstractServices<Service>{
     @POST
     @Path("new")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response newService(@QueryParam("email") String email, @QueryParam("name") String colocationName,
-                               @QueryParam("title") String title, @QueryParam("description") String description,
+    public Response newService(@QueryParam("email") String email,
+                               @QueryParam("name") String colocationName,
+                               @QueryParam("title") String title,
+                               @QueryParam("description") String description,
                                @QueryParam("cost") int cost){
         if(ServiceManager.createService(email,colocationName,title,description, cost)){
             return Response.status(Response.Status.CREATED).build();

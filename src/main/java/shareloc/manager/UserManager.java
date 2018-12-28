@@ -1,5 +1,6 @@
 package shareloc.manager;
 
+import shareloc.model.AchievedService;
 import shareloc.model.Colocation;
 import shareloc.model.Service;
 import shareloc.model.User;
@@ -119,7 +120,39 @@ public class UserManager extends DaoManager {
         return false;
     }
 
-    public static boolean valid(String email, Long serviceID){
+    public static boolean valid(String email, Long achievedServiceID, boolean validated) {
+        User validator = getUser(email);
+        AchievedService achievedService = achievedServiceDao.find(achievedServiceID);
+        User from = achievedService.getFrom();
+
+        if (validator == null || achievedService == null || from == null) {
+            return false;
+        }
+
+        // validator != user who achieved the service
+        // and is into the list of users who benefit of the service
+        if (!validator.equals(achievedService.getFrom()) &&
+                achievedService.getTo().contains(validator)) {
+            if (validated) {
+                int cost = achievedService.getService().getCost();
+                achievedService.setValidated(true);
+                from.addToScore(cost);
+                achievedServiceDao.edit(achievedService);
+                userDao.edit(from);
+                for (User user : achievedService.getTo()) {
+                    user.decreaseScore(cost);
+                    userDao.edit(user);
+                }
+                //If service is achieved, we remove the service from table
+                serviceDao.remove(achievedService.getService());
+            } else {
+                achievedService.setValidated(false);
+                achievedServiceDao.edit(achievedService);
+            }
+
+            return true;
+        }
+
         return false;
     }
 }

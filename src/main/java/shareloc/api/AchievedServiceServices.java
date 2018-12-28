@@ -26,7 +26,6 @@ public class AchievedServiceServices extends AbstractServices<AchievedService> {
                                        @QueryParam("date") String date,
                                        @QueryParam("picture") String picture,
                                        @QueryParam("to") List<String> to) {
-
         if (AchievedServiceManager.newAchievedService(email, serviceID, date, picture,to)) {
             return Response.status(Response.Status.CREATED).build();
         }

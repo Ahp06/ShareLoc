@@ -33,8 +33,10 @@ public class LogServices {
     @POST
     @Path("signup")
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response signup(@QueryParam("email") String email, @QueryParam("password") String password,
-                           @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
+    public Response signup(@QueryParam("email") String email,
+                           @QueryParam("password") String password,
+                           @QueryParam("firstname") String firstname,
+                           @QueryParam("lastname") String lastname) {
         if (UserManager.createUser(email, password, firstname, lastname))
             return Response.status(Response.Status.CREATED).build();
         return Response.status(Response.Status.CONFLICT).build();
@@ -44,7 +46,8 @@ public class LogServices {
     @POST
     @Path("signin")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response signin(@QueryParam("email") String email, @QueryParam("password") String password){
+    public Response signin(@QueryParam("email") String email,
+                           @QueryParam("password") String password){
         User user = UserManager.login(email,password);
         if(user != null) {
             return Response.ok().entity(JWTokenUtility.buildJWT(user.getEmail())).build();

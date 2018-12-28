@@ -74,6 +74,18 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public void addToScore(int cost){
+        this.score += cost;
+    }
+
+    public void decreaseScore(int cost){
+        this.score -= cost;
+    }
+
+    public int getScore(){
+        return this.score;
+    }
+
     @Override
     public String toString() {
         return "User{" +

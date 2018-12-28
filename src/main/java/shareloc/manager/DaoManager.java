@@ -1,6 +1,7 @@
 package shareloc.manager;
 
 import shareloc.dao.*;
+import shareloc.model.AchievedService;
 import shareloc.model.Colocation;
 import shareloc.model.User;
 
@@ -69,6 +70,16 @@ public class DaoManager {
         int cpt = 0;
         for (User u : colocation.getMembers()) {
             if (u.getEmail().equals(user.getEmail())) {
+                cpt++;
+            }
+        }
+        return cpt == 1;
+    }
+
+    public static boolean serviceIsAlreadyAchieved(Long serviceID){
+        int cpt = 0;
+        for (AchievedService achievedService : achievedServiceDao.findAll()) {
+            if (achievedService.getService().getId() == serviceID){
                 cpt++;
             }
         }

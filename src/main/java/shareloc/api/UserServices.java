@@ -20,8 +20,10 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("edit")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response editFirstLastNames(@QueryParam("email") String email, @QueryParam("password") String password,
-                                       @QueryParam("firstname") String firstname, @QueryParam("lastname") String lastname) {
+    public Response editFirstLastNames(@QueryParam("email") String email,
+                                       @QueryParam("password") String password,
+                                       @QueryParam("firstname") String firstname,
+                                       @QueryParam("lastname") String lastname) {
         if (UserManager.editUser(email, password, firstname, lastname)) {
             return Response.ok().build();
         }
@@ -31,7 +33,8 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("quit")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response quitColocation(@QueryParam("email") String email, @QueryParam("name") String coloc_name) {
+    public Response quitColocation(@QueryParam("email") String email,
+                                   @QueryParam("name") String coloc_name) {
         if (UserManager.quitColocation(email, coloc_name)) {
             return Response.ok().build();
         }
@@ -41,7 +44,9 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("vote")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response vote(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID, @QueryParam("vote") int vote) {
+    public Response vote(@QueryParam("email") String email,
+                         @QueryParam("serviceID") Long serviceID,
+                         @QueryParam("vote") int vote) {
         if (UserManager.vote(email, serviceID, vote)) {
             return Response.ok().build();
         }
@@ -51,8 +56,10 @@ public class UserServices extends AbstractServices<User> {
     @POST
     @Path("valid")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response valid(@QueryParam("email") String email, @QueryParam("serviceID") Long serviceID) {
-        if (UserManager.valid(email, serviceID)) {
+    public Response valid(@QueryParam("email") String email,
+                          @QueryParam("achievedServiceID") Long achievedServiceID,
+                          @QueryParam("valid") boolean validated) {
+        if (UserManager.valid(email, achievedServiceID, validated)) {
             return Response.ok().build();
         }
         return Response.status(Response.Status.CONFLICT).build();
