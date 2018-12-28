@@ -3,7 +3,12 @@ package shareloc.manager;
 import shareloc.dao.*;
 import shareloc.model.AchievedService;
 import shareloc.model.Colocation;
+import shareloc.model.Image;
 import shareloc.model.User;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 public class DaoManager {
 
@@ -84,6 +89,26 @@ public class DaoManager {
             }
         }
         return cpt == 1;
+    }
+
+    /**
+     * Store into the DB a new Image entity
+     *
+     * @param imgPath
+     * @return
+     */
+    public static Image downloadImg(String imgPath) {
+        File img = new File(imgPath);
+        try {
+            byte[] bytes = Files.readAllBytes(img.toPath());
+            Image image = new Image(bytes);
+            imageDao.create(image);
+            return image;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -1,9 +1,6 @@
 package shareloc.manager;
 
-import shareloc.model.AchievedService;
-import shareloc.model.Colocation;
-import shareloc.model.Service;
-import shareloc.model.User;
+import shareloc.model.*;
 
 public class UserManager extends DaoManager {
 
@@ -154,5 +151,24 @@ public class UserManager extends DaoManager {
         }
 
         return false;
+    }
+
+    public static boolean editProfilePicture(String email, String picture) {
+        User user = getUser(email);
+
+        if (user == null || picture == null) {
+            return false;
+        }
+
+        Image image = downloadImg(picture);
+        if(image != null){
+            user.setImage(image);
+            userDao.edit(user);
+        } else {
+            return false;
+        }
+
+        return true;
+
     }
 }

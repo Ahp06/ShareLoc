@@ -23,26 +23,6 @@ public class AchievedServiceManager extends DaoManager {
     }
 
     /**
-     * Store into the DB a new Image entity
-     *
-     * @param imgPath
-     * @return
-     */
-    public static Image downloadImg(String imgPath) {
-        File img = new File(imgPath);
-        try {
-            byte[] bytes = Files.readAllBytes(img.toPath());
-            Image image = new Image(bytes);
-            imageDao.create(image);
-            return image;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-
-    /**
      * Declare the realization of a service
      *
      * @param email

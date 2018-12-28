@@ -31,6 +31,17 @@ public class UserServices extends AbstractServices<User> {
     }
 
     @POST
+    @Path("profilePicture")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response editProfilePicture(@QueryParam("email") String email,
+                                       @QueryParam("picture") String picture){
+        if(UserManager.editProfilePicture(email,picture)){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
+
+    @POST
     @Path("quit")
     @Produces(MediaType.APPLICATION_JSON)
     public Response quitColocation(@QueryParam("email") String email,

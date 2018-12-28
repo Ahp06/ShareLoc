@@ -3,10 +3,7 @@ package shareloc.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
@@ -22,6 +19,8 @@ public class User implements Serializable {
     private String firstname;
     private String lastname;
     private int score;
+    @OneToOne
+    private Image image;
 
     public User() {
     }
@@ -84,6 +83,14 @@ public class User implements Serializable {
 
     public int getScore(){
         return this.score;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
+    public void setImage(Image image) {
+        this.image = image;
     }
 
     @Override
