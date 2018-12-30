@@ -31,6 +31,8 @@ public class MessageManager extends DaoManager {
         if (content != null && !content.equals("")) {
             Message message = new Message(sender, content, current_tp, image);
             messageDao.create(message);
+            colocation.addMessage(message);
+            colocationDao.edit(colocation);
         }
 
         return true;

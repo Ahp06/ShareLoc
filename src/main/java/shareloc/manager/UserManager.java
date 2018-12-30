@@ -121,24 +121,27 @@ public class UserManager extends DaoManager {
         User validator = getUser(email);
         AchievedService achievedService = achievedServiceDao.find(achievedServiceID);
         User from = achievedService.getFrom();
+        Colocation colocation = achievedService.getService().getColocation();
 
         if (validator == null || achievedService == null || from == null) {
             return false;
         }
 
+        Score userScore = getUserScoreIntoColocation(colocation,from);
+
         // validator != user who achieved the service
         // and is into the list of users who benefit of the service
-        if (!validator.equals(achievedService.getFrom()) &&
-                achievedService.getTo().contains(validator)) {
+        if (!validator.equals(from) && achievedService.getTo().contains(validator)) {
             if (validated) {
                 int cost = achievedService.getService().getCost();
                 achievedService.setValidated(true);
-                from.addToScore(cost);
+                userScore.addToScore(cost);
                 achievedServiceDao.edit(achievedService);
                 userDao.edit(from);
+                scoreDao.edit(userScore);
                 for (User user : achievedService.getTo()) {
-                    user.decreaseScore(cost);
-                    userDao.edit(user);
+                    Score score = getUserScoreIntoColocation(colocation,user);
+                    score.decreaseScore(cost);
                 }
                 //If service is achieved, we remove the service from table
                 serviceDao.remove(achievedService.getService());

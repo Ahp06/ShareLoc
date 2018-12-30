@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"password"})
@@ -18,7 +20,8 @@ public class User implements Serializable {
     private String password;
     private String firstname;
     private String lastname;
-    private int score;
+    @OneToMany
+    private List<Score> scores;
     @OneToOne
     private Image image;
 
@@ -30,7 +33,7 @@ public class User implements Serializable {
         this.firstname = firstname;
         this.lastname = lastname;
         this.password = password;
-        this.score = 100;
+        this.scores = new ArrayList<Score>();
     }
 
     public Long getId() {
@@ -73,16 +76,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public void addToScore(int cost){
-        this.score += cost;
+    public List<Score> getScores() {
+        return this.scores;
     }
 
-    public void decreaseScore(int cost){
-        this.score -= cost;
-    }
-
-    public int getScore(){
-        return this.score;
+    public void setScores(List<Score> scores){
+        this.scores = scores;
     }
 
     public Image getImage() {

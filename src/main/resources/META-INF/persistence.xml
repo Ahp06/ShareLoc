@@ -10,6 +10,7 @@
         <class>shareloc.model.AchievedService</class>
         <class>shareloc.model.Image</class>
         <class>shareloc.model.Message</class>
+        <class>shareloc.model.Score</class>
 
         <properties>
             <property name="eclipselink.jdbc.url" value="jdbc:mysql://localhost:3306/shareloc?serverTimezone=UTC"/>

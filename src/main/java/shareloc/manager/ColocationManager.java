@@ -1,6 +1,7 @@
 package shareloc.manager;
 
 import shareloc.model.Colocation;
+import shareloc.model.Score;
 import shareloc.model.User;
 
 public class ColocationManager extends DaoManager {
@@ -21,6 +22,9 @@ public class ColocationManager extends DaoManager {
             if (!(name.equals(""))) {
                 Colocation colocation = new Colocation(name, admin);
                 colocationDao.create(colocation);
+                Score score = new Score(colocation,DEFAULT_SCORE);
+                admin.getScores().add(score);
+                userDao.edit(admin);
                 return true;
             }
         }
@@ -38,6 +42,7 @@ public class ColocationManager extends DaoManager {
         Colocation colocation = getColocation(name);
         User invited = getUser(email);
         User admin = getUser(admin_email);
+        Score score = new Score(colocation,DEFAULT_SCORE);
 
         if (admin == null || invited == null || colocation == null) {
             return false;
@@ -46,6 +51,8 @@ public class ColocationManager extends DaoManager {
         if (isAdmin(admin, colocation) && !userIsIntoColoc(invited, colocation)) {
             colocation.addMember(invited);
             colocationDao.edit(colocation);
+            invited.getScores().add(score);
+            userDao.edit(invited);
             return true;
         }
 
