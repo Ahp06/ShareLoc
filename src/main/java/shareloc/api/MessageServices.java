@@ -16,13 +16,13 @@ public class MessageServices extends AbstractServices<Message> {
     }
 
     @GET
-    @Path("getAll")
+    @Path("coloc")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMessagesIntoColocation(@QueryParam("email") String email,
                                               @QueryParam("name") String name){
         List<Message> messages = MessageManager.getMessages(email,name);
         if(messages != null){
-            return Response.ok(messages).build();
+            return Response.ok(messages.toString()).build();
         }
         return Response.status(Response.Status.CONFLICT).build();
     }

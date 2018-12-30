@@ -23,7 +23,7 @@ public class MessageManager extends DaoManager {
         }
 
         Image image = null;
-        if (picture != null) {
+        if (!picture.equals("null")) {
             image = downloadImg(picture);
         }
 
@@ -41,7 +41,7 @@ public class MessageManager extends DaoManager {
     public static List<Message> getMessages(String email, String name) {
         User user = getUser(email);
         Colocation colocation = getColocation(name);
-        if (colocation == null || user == null || !userIsIntoColoc(user, colocation)) {
+        if (colocation == null || user == null|| !userIsIntoColoc(user, colocation) ) {
             return null;
         }
         return colocation.getMessages();
