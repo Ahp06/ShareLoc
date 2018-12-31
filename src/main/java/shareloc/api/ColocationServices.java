@@ -2,11 +2,9 @@ package shareloc.api;
 
 import shareloc.manager.ColocationManager;
 import shareloc.model.Colocation;
+import shareloc.model.User;
 
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -75,5 +73,16 @@ public class ColocationServices extends AbstractServices<Colocation> {
         return Response.status(Response.Status.CONFLICT).build();
     }
 
+    @GET
+    @Path("best")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getBestUser(@QueryParam("email") String email,
+                                 @QueryParam("name") String name) {
+        String msg = ColocationManager.getBestUser(email, name);
+        if (msg != null) {
+            return Response.ok(msg).build();
+        }
+        return Response.status(Response.Status.CONFLICT).build();
+    }
 
 }

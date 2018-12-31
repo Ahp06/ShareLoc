@@ -12,6 +12,7 @@ public class ColocationManager extends DaoManager {
 
     /**
      * Creates a new colocation
+     *
      * @param name
      * @param admin_email
      * @return
@@ -22,7 +23,7 @@ public class ColocationManager extends DaoManager {
             if (!(name.equals(""))) {
                 Colocation colocation = new Colocation(name, admin);
                 colocationDao.create(colocation);
-                Score score = new Score(colocation,DEFAULT_SCORE);
+                Score score = new Score(colocation, DEFAULT_SCORE);
                 admin.getScores().add(score);
                 userDao.edit(admin);
                 return true;
@@ -33,6 +34,7 @@ public class ColocationManager extends DaoManager {
 
     /**
      * Invite an user into a colocation if user exist
+     *
      * @param name
      * @param admin_email
      * @param email
@@ -42,7 +44,7 @@ public class ColocationManager extends DaoManager {
         Colocation colocation = getColocation(name);
         User invited = getUser(email);
         User admin = getUser(admin_email);
-        Score score = new Score(colocation,DEFAULT_SCORE);
+        Score score = new Score(colocation, DEFAULT_SCORE);
 
         if (admin == null || invited == null || colocation == null) {
             return false;
@@ -61,6 +63,7 @@ public class ColocationManager extends DaoManager {
 
     /**
      * If user has admin rights, remove the colocation
+     *
      * @param name
      * @param email
      * @return
@@ -76,6 +79,7 @@ public class ColocationManager extends DaoManager {
 
     /**
      * IF user has admin rights, edit the colocation name
+     *
      * @param name
      * @param admin_email
      * @param newName
@@ -94,6 +98,7 @@ public class ColocationManager extends DaoManager {
 
     /**
      * If user has admin rights, remove a member from the colocation
+     *
      * @param name
      * @param admin_email
      * @param member_email
@@ -112,5 +117,36 @@ public class ColocationManager extends DaoManager {
             }
         }
         return false;
+    }
+
+    /**
+     * Return a string message according to the user with the highest score in the colocation
+     *
+     * @param email
+     * @param name
+     * @return
+     */
+    public static String getBestUser(String email, String name) {
+        User user = getUser(email);
+        Colocation colocation = getColocation(name);
+
+        if (user == null || colocation == null || !userIsIntoColoc(user, colocation)) {
+            return null;
+        }
+
+        if (colocation.getMembers().size() > 1) {
+            User best = colocation.getMembers().get(0);
+            int score = getUserScoreIntoColocation(colocation, best).getScore();
+            for (User u : colocation.getMembers()) {
+                if (getUserScoreIntoColocation(colocation, best).getScore()
+                        < getUserScoreIntoColocation(colocation, u).getScore()) {
+                    best = u;
+                    score = getUserScoreIntoColocation(colocation, best).getScore();
+                }
+            }
+            return best.toString() + ", score = " + score;
+        } else {
+            return "colocation size <= 1";
+        }
     }
 }
